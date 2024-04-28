@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Guessing Game</title>
+</head>
+<body>
+  <h1>Simple Guessing Game</h1>
+  <p>I'm thinking of a number between 1 and 10. Can you guess what it is?</p>
+  <input type="number" id="guess-input" placeholder="Enter your guess">
+  <button onclick="checkGuess()">Guess</button>
+  <p id="hint"></p>
+
+  <script>
+    let targetNumber = Math.floor(Math.random() * 10) + 1;
+    let attempts = 0;
+
+    function checkGuess() {
+      const guessInput = document.getElementById('guess-input');
+      const guess = parseInt(guessInput.value);
+      const hintElement = document.getElementById('hint');
+
+      if (isNaN(guess) || guess < 1 || guess > 10) {
+        hintElement.textContent = 'Please enter a valid number between 1 and 10.';
+        return;
+      }
+
+      attempts++;
+
+      if (guess === targetNumber) {
+        hintElement.textContent = `Congratulations! You guessed the number ${targetNumber} in ${attempts} attempts.`;
+        hintElement.style.color = 'green';
+        disableInput();
+      } else {
+        hintElement.textContent = guess < targetNumber ? 'Try a higher number.' : 'Try a lower number.';
+        hintElement.style.color = 'blue';
+      }
+
+      if (attempts === 3) {
+        hintElement.textContent = `Sorry, you've used all your attempts. The number was ${targetNumber}.`;
+        hintElement.style.color = 'red';
+        disableInput();
+      }
+    }
+
+    function disableInput() {
+      document.getElementById('guess-input').disabled = true;
+      document.querySelector('button').disabled = true;
+    }
+  </script>
+</body>
+</html>
